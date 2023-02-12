@@ -9,7 +9,14 @@ import { cities } from '../constant';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
-const MapContainer = () => {
+const MapContainer = ({selectedCity}: {
+    selectedCity: {
+        name: string,
+        code: string,
+        latitude: number,
+        longitude: number,
+    }
+}) => {
     const [viewport, setViewport] = useState({
         longitude: 0,
         latitude: 0,
@@ -41,11 +48,12 @@ const MapContainer = () => {
         })
     }
 
-    // useEffect(() => {
-    //     navigator.geolocation.getCurrentPosition(({
-    //         coords: {longitude, latitude}
-    //     }) => navigatorSuccess(longitude, latitude), navigatorError)
-    // }, [])
+    useEffect(() => {
+        if ('latitude' in selectedCity && 'longitude' in selectedCity) {
+            console.log(selectedCity)
+            navigatorSuccess(selectedCity?.longitude, selectedCity?.latitude)            
+        }
+    }, [selectedCity])
 
     const mapRef = useRef<any>();
 
@@ -68,20 +76,6 @@ const MapContainer = () => {
             latitude={city.latitude}>
         </Marker>)
     ), [cities]);
-
-    const handleZoomIn = () => {
-        setViewport(prev => ({
-            ...prev,
-            zoom: prev.zoom + 1,
-        }))
-    };
-
-    const handleZoomOut = () => {
-        setViewport(prev => ({
-            ...prev,
-            zoom: prev.zoom - 1,
-        }))
-    };
 
   return (
     <Box

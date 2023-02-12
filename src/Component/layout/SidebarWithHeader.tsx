@@ -41,8 +41,10 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 function SidebarWithHeader({
+  setSelectedCity,
   children,
 }: {
+  setSelectedCity: any,
   children: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,6 +57,7 @@ function SidebarWithHeader({
         display={{ base: 'none', md: 'block' }}
         expand={expand}
         setExpand={toggle}
+        setSelectedCity={setSelectedCity}
       />
       <Drawer
         autoFocus={false}
@@ -69,6 +72,7 @@ function SidebarWithHeader({
             onClose={onClose}
             expand={expand}
             setExpand={toggle}
+            setSelectedCity={setSelectedCity}
           />
         </DrawerContent>
       </Drawer>
@@ -85,12 +89,14 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
   expand: boolean;
   setExpand: () => void;
+  setSelectedCity: any
 }
 
 const SidebarContent = ({
   onClose,
   expand,
   setExpand,
+  setSelectedCity,
   ...rest
 }: SidebarProps) => {
   return (
@@ -147,6 +153,7 @@ const SidebarContent = ({
           navText={city.name}
           tooltipText={city.name}
           expand={expand}
+          onClick={() => setSelectedCity(() => city)}
         />
       ))}
     </Box>
@@ -158,12 +165,14 @@ interface NavItemProps extends FlexProps {
   navText: string;
   tooltipText: string;
   expand: boolean;
+  onClick: any;
 }
 const NavItem = ({
   initial,
   navText,
   tooltipText,
   expand,
+  onClick,
   ...rest
 }: NavItemProps) => {
   return (
@@ -176,7 +185,9 @@ const NavItem = ({
       <Link
         href="#"
         style={{ textDecoration: 'none' }}
-        _focus={{ boxShadow: '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)', }}>
+        _focus={{ boxShadow: '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)', }}
+        onClick={onClick}
+      >
         <Flex
           align="center"
           paddingY="4"
