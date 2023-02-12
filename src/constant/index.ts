@@ -25,7 +25,7 @@ export const cities = [
         "code": "SHA",
         "longitude": 121.4737,
         "latitude": 31.2304,
-        "country": "China"
+        "country": "People's Republic of China"
       },
       {
         "name": "Mexico City",
@@ -74,7 +74,7 @@ export const cities = [
         "code": "IST",
         "longitude": 28.9784,
         "latitude": 41.0082,
-        "country": "Turkey"
+        "country": "Türkiye",
       },
       {
         "name": "Lahore",

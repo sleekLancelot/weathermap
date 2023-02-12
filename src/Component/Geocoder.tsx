@@ -15,8 +15,14 @@ const Geocoder = ({navigateTo}: {
 
     filter: (item) => {
         return item.context.some((i) => {
+            // console.log(i, cities?.some( city => (
+            //     i.text?.toLowerCase() === city?.name?.toLowerCase() ||
+            //     i.text?.toLowerCase() === city?.country?.toLowerCase()
+            // ) ))
+
             return (
-                // i.id.split('.').shift() === 'region' &&
+                (i.id.split('.').shift() === 'region' ||
+                i.id.split('.').shift() === 'country') &&
                 cities?.some( city => (
                     i.text?.toLowerCase() === city?.name?.toLowerCase() ||
                     i.text?.toLowerCase() === city?.country?.toLowerCase()
@@ -25,7 +31,7 @@ const Geocoder = ({navigateTo}: {
         });
     }
   });
-  useControl(() => ctrl);
+  useControl(() => ctrl, {position: 'top-left'});
   ctrl.on('result', (e: any) => {
     const coords = e.result.geometry.coordinates;
 
