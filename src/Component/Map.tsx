@@ -1,5 +1,5 @@
 import { Box, useToast } from '@chakra-ui/react'
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Map, { 
     Marker,
     NavigationControl,
@@ -18,12 +18,17 @@ const MapContainer = () => {
 
     const toast = useToast()
 
-    const navigatorSuccess = (longitude: number, latitude: number) => 
-    setViewport((viewPort) => ({
-        ...viewPort,
-        longitude,
-        latitude,
-    }))
+    const navigatorSuccess = (longitude: number, latitude: number) => {
+        setViewport((viewPort) => ({
+            ...viewPort,
+            longitude,
+            latitude,
+        }))
+
+        return mapRef.current.flyTo({
+            center: [longitude, latitude],
+        })
+    }
 
     const navigatorError = (err: any) => {
         toast({
@@ -36,11 +41,22 @@ const MapContainer = () => {
         })
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(({
+    //         coords: {longitude, latitude}
+    //     }) => navigatorSuccess(longitude, latitude), navigatorError)
+    // }, [])
+
+    const mapRef = useRef<any>();
+
+    const onMapLoad = useCallback(() => {
         navigator.geolocation.getCurrentPosition(({
             coords: {longitude, latitude}
         }) => navigatorSuccess(longitude, latitude), navigatorError)
-    }, [])
+        // mapRef.current.on('move', () => {
+            
+        // });
+    }, []);
 
     const markers = useMemo(() => cities.map((city,index) => (
         <Marker key={index}
@@ -55,10 +71,18 @@ const MapContainer = () => {
         h={{base: '100vh', md: '70vh'}}
     >
         <Map
+            ref={mapRef}
+            onLoad={onMapLoad}
             mapboxAccessToken={MAPBOX_TOKEN}
             {...viewport}
             initialViewState={viewport}
             mapStyle={'mapbox://styles/mapbox/streets-v11'}
+            onDrag={(newViewport: any) =>{
+                setViewport( prev => ({
+                    ...prev,
+                    ...newViewport?.viewState
+                }))
+            }}
         >
             {/* <Marker
                 latitude={viewport.latitude}
