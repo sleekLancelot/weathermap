@@ -1,10 +1,11 @@
 import { Box, useToast } from '@chakra-ui/react'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Map, { 
     Marker,
     NavigationControl,
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { cities } from '../constant';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
@@ -41,6 +42,13 @@ const MapContainer = () => {
         }) => navigatorSuccess(longitude, latitude), navigatorError)
     }, [])
 
+    const markers = useMemo(() => cities.map((city,index) => (
+        <Marker key={index}
+            longitude={city.longitude}
+            latitude={city.latitude}>
+        </Marker>)
+    ), [cities]);
+
   return (
     <Box
         w={{base: '80vw', md: '70vw'}}
@@ -52,14 +60,21 @@ const MapContainer = () => {
             initialViewState={viewport}
             mapStyle={'mapbox://styles/mapbox/streets-v11'}
         >
-            <Marker
+            {/* <Marker
                 latitude={viewport.latitude}
                 longitude={viewport.longitude}
                 draggable
                 onDragEnd={(e: any) =>
                     navigatorSuccess(e.lngLat.lng, e.lngLat.lat)
                 }
-            />
+                // onDrag={(newViewport: any) =>{
+                //     setViewport( prev => ({
+                //         ...prev,
+                //         ...newViewport?.viewState
+                //     }))
+                // }}
+            /> */}
+            {markers}
             <NavigationControl 
                 position="top-right"
                 showCompass={false}
