@@ -96,20 +96,6 @@ const MapContainer = ({selectedCity}: {
                 }))
             }}
         >
-            {/* <Marker
-                latitude={viewport.latitude}
-                longitude={viewport.longitude}
-                draggable
-                onDragEnd={(e: any) =>
-                    navigatorSuccess(e.lngLat.lng, e.lngLat.lat)
-                }
-                // onDrag={(newViewport: any) =>{
-                //     setViewport( prev => ({
-                //         ...prev,
-                //         ...newViewport?.viewState
-                //     }))
-                // }}
-            /> */}
             {markers}
             <NavigationControl 
                 position="top-right"
