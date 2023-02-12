@@ -1,7 +1,13 @@
 import MapBoxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import mapboxgl from "mapbox-gl";
+
 import { useControl } from 'react-map-gl';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import { cities } from '../constant';
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const MAPBOX_TOKEN: any = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 

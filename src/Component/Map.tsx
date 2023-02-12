@@ -5,6 +5,7 @@ import Map, {
     NavigationControl,
     Popup,
 } from 'react-map-gl'
+import mapboxgl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { cities } from '../constant';
 import { Geocoder } from './Geocoder';
