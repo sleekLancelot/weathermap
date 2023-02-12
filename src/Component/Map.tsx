@@ -53,9 +53,13 @@ const MapContainer = () => {
         navigator.geolocation.getCurrentPosition(({
             coords: {longitude, latitude}
         }) => navigatorSuccess(longitude, latitude), navigatorError)
-        // mapRef.current.on('move', () => {
-            
-        // });
+        
+        mapRef.current.on('zoomend', (event: any) => {
+            setViewport((prevViewport) => ({
+              ...prevViewport,
+              zoom: event.target.getZoom(),
+            }));
+        });
     }, []);
 
     const markers = useMemo(() => cities.map((city,index) => (
@@ -64,6 +68,20 @@ const MapContainer = () => {
             latitude={city.latitude}>
         </Marker>)
     ), [cities]);
+
+    const handleZoomIn = () => {
+        setViewport(prev => ({
+            ...prev,
+            zoom: prev.zoom + 1,
+        }))
+    };
+
+    const handleZoomOut = () => {
+        setViewport(prev => ({
+            ...prev,
+            zoom: prev.zoom - 1,
+        }))
+    };
 
   return (
     <Box
