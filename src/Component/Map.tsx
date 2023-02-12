@@ -6,6 +6,7 @@ import Map, {
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { cities } from '../constant';
+import { Geocoder } from './Geocoder';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
@@ -50,7 +51,6 @@ const MapContainer = ({selectedCity}: {
 
     useEffect(() => {
         if ('latitude' in selectedCity && 'longitude' in selectedCity) {
-            console.log(selectedCity)
             navigatorSuccess(selectedCity?.longitude, selectedCity?.latitude)            
         }
     }, [selectedCity])
@@ -118,6 +118,7 @@ const MapContainer = ({selectedCity}: {
                     display: 'flex',
                 }}
             />
+            <Geocoder navigateTo={navigatorSuccess} />
         </Map>
     </Box>
   )

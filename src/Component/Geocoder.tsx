@@ -1,9 +1,24 @@
-import React from 'react'
+import MapBoxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { useControl } from 'react-map-gl';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-const Geocoder = () => {
-  return (
-    <div>Geocoder</div>
-  )
+const MAPBOX_TOKEN: any = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+
+const Geocoder = ({navigateTo}: {
+    navigateTo: Function
+}) => {
+  const ctrl = new MapBoxGeocoder({
+    accessToken: MAPBOX_TOKEN,
+    marker: false,
+    collapsed: true,
+  });
+  useControl(() => ctrl);
+  ctrl.on('result', (e: any) => {
+    const coords = e.result.geometry.coordinates;
+
+    navigateTo( coords[0],  coords[1])
+  });
+  return null;
 }
 
 export {Geocoder}
