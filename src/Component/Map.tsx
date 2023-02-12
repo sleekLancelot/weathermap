@@ -1,4 +1,4 @@
-import { Box, Divider, Tag, Text, useToast, VStack, chakra } from '@chakra-ui/react'
+import { Box, Divider, Tag, Text, useToast, VStack, chakra, HStack } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Map, { 
     Marker,
@@ -94,6 +94,7 @@ const MapContainer = ({selectedCity}: {
 
   return (
     <Box
+        mt={10}
         w={{base: '80vw', md: '70vw'}}
         h={{base: '100vh', md: '70vh'}}
     >
@@ -132,8 +133,9 @@ const MapContainer = ({selectedCity}: {
                     <Box
                         w={220}
                         h={200}
+                        borderRadius={30}
                     >
-                        <VStack>
+                        <VStack spacing={4}>
                             <chakra.h2
                                 width={'100%'}
                                 color={'#000'}
@@ -144,7 +146,15 @@ const MapContainer = ({selectedCity}: {
                                 pb={2}
                                 borderBottom={'1px solid black'}
                             >{popupInfo?.name}</chakra.h2>
-                            <Divider orientation='horizontal' />
+                            <HStack spacing={4}>
+                                <Text
+                                    color={'teal'}
+                                >lat: {popupInfo?.latitude}</Text>
+                                <Divider color={'black'} fontSize={14} orientation='vertical' />
+                                <Text
+                                    color={'teal'}
+                                >long: {popupInfo?.longitude}</Text>
+                            </HStack>
                         </VStack>
                     </Box>
                 </Popup>
